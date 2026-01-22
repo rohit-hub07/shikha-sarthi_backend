@@ -44,12 +44,15 @@ exports.uploadEPaper = async (req, res) => {
 
     console.log('Uploading E-Paper:', { year, month, fileSize: req.file.size });
 
-    // Upload to Cloudinary
+    // Upload to Cloudinary with proper PDF settings
     cloudinary.uploader.upload_stream(
       {
         folder: 'epapers',
         resource_type: 'raw',
-        public_id: `epaper_${year}_${month}_${Date.now()}`
+        format: 'pdf',
+        public_id: `epaper_${year}_${month}_${Date.now()}.pdf`,
+        flags: 'attachment',
+        content_type: 'application/pdf'
       },
       async (error, result) => {
         if (error) {
@@ -107,13 +110,15 @@ exports.replaceEPaper = async (req, res) => {
 
     console.log('Replacing E-Paper:', { year, month, fileSize: req.file.size });
 
-    // Upload to Cloudinary
+    // Upload to Cloudinary with proper PDF settings
     cloudinary.uploader.upload_stream(
       {
         folder: 'epapers',
         resource_type: 'raw',
         format: 'pdf',
-        public_id: `epaper_${year}_${month}_${Date.now()}`
+        public_id: `epaper_${year}_${month}_${Date.now()}.pdf`,
+        flags: 'attachment',
+        content_type: 'application/pdf'
       },
       async (error, result) => {
         if (error) {
