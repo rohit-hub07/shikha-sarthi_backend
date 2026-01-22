@@ -14,14 +14,22 @@ const ePaperRoutes = require('./routes/ePaper');
 
 const app = express();
 
-const corsOptions = {
-  origin: [
-    process.env.FRONTEND_URL
-  ],
-  credentials: true,
-};
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+];
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 
 
 
